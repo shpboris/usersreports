@@ -13,3 +13,15 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+#intellij and eclipse config files
+.project
+.classpath
+target
+.idea/*
+!/.idea/runConfigurations
+.settings
+*.iml
+
+logs/
+*.log
