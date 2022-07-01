@@ -3,11 +3,10 @@ package main
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/shpboris/logger"
 	"github.com/shpboris/usersdata"
-	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
-	"usersreports/logger"
 	"usersreports/reportsvc"
 )
 
@@ -22,7 +21,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/report", GenerateReport).Methods(GET).Headers(acceptHeader, applicationJson)
 	logger.Log.Info("Started the server on port 8001")
-	log.Fatal(http.ListenAndServe(":8001", router))
+	logger.Log.Fatal(http.ListenAndServe(":8001", router))
 }
 
 func GenerateReport(w http.ResponseWriter, r *http.Request) {
