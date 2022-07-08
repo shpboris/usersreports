@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
         - name: usersreports
-          image: shpboris/usersreports
+          image: shpboris/usersreports:in-mem
           env:
             - name: USERS_SERVICE_URL_KEY
               value: http://usersapi-svc:8000
