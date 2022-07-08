@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: my-test-ns
+  name: usersreports-vs
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - my-test-gateway.istio-system.svc.cluster.local
+  http:
+    - match:
+        - uri:
+            prefix: "/report"
+      route:
+        - destination:
+            port:
+              number: 8001
+            host: usersreports-svc

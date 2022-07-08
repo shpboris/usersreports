@@ -7,15 +7,20 @@ import (
 	"github.com/shpboris/usersdata"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"usersreports/reportsvc"
 )
 
 const (
-	acceptHeader    = "Accept"
-	applicationJson = "application/json"
-	GET             = "GET"
-	URL             = "http://localhost:8000/users"
+	acceptHeader       = "Accept"
+	applicationJson    = "application/json"
+	GET                = "GET"
+	usersServiceUrlKey = "USERS_SERVICE_URL_KEY"
+	defaultUsersApiUrl = "http://localhost:8000/users"
+	usersApiSuffix     = "/users"
 )
+
+var usersApiUrl = defaultUsersApiUrl
 
 func main() {
 	router := mux.NewRouter()
@@ -24,10 +29,17 @@ func main() {
 	logger.Log.Fatal(http.ListenAndServe(":8001", router))
 }
 
+func init() {
+	usersServiceUrl, ok := os.LookupEnv(usersServiceUrlKey)
+	if ok {
+		usersApiUrl = usersServiceUrl + usersApiSuffix
+	}
+}
+
 func GenerateReport(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Debug("Started GenerateReport")
 	client := http.Client{}
-	req, err := http.NewRequest(GET, URL, nil)
+	req, err := http.NewRequest(GET, usersApiUrl, nil)
 	if handleError(err, w) {
 		return
 	}

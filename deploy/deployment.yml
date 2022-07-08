@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usersreports-dpl
+  namespace: my-test-ns
+  labels:
+    app: usersreports-lbl
+spec:
+  selector:
+    matchLabels:
+      app: usersreports-lbl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: usersreports-lbl
+    spec:
+      containers:
+        - name: usersreports
+          image: shpboris/usersreports
+          env:
+            - name: USERS_SERVICE_URL_KEY
+              value: http://usersapi-svc:8000
+          ports:
+            - containerPort: 8001
+              protocol: TCP
